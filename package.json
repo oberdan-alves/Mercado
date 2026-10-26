@@ -1,0 +1,29 @@
+{
+  "name": "mercado",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lista de mercado offline para computador e Android",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && node scripts/serve.mjs",
+    "android:sync": "npm run build && cap sync android",
+    "android:open": "cap open android",
+    "android:debug": "npm run android:sync && node scripts/gradle.mjs :app:assembleDebug",
+    "android:release": "npm run android:sync && node scripts/gradle.mjs :app:assembleRelease",
+    "test": "npm run build && playwright test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/filesystem": "8.1.5",
+    "@capacitor/share": "8.0.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.3",
+    "@playwright/test": "1.64.1",
+    "esbuild": "0.28.2"
+  }
+}

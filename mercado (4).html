@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Mercado</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -144,6 +144,13 @@ input[type="text"]{text-transform:uppercase;}
 .cmod-ok:active{background:#388e3c;}
 .cmod-no{background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px 6px;font-size:1.2rem;font-weight:800;cursor:pointer;}
 .cmod-no:active{background:#b71c1c;}
+/* Espaço seguro para barras do Android e acesso ao backup da última importação. */
+body{padding-top:var(--safe-area-inset-top, env(safe-area-inset-top));}
+.bottombar{padding-bottom:calc(8px + var(--safe-area-inset-bottom, env(safe-area-inset-bottom)));}
+.list-area{min-height:0;padding-bottom:calc(90px + var(--safe-area-inset-bottom, env(safe-area-inset-bottom)));}
+.calc-panel{padding-top:var(--safe-area-inset-top, env(safe-area-inset-top));padding-bottom:var(--safe-area-inset-bottom, env(safe-area-inset-bottom));}
+.backup-btn{background:none;border:0;color:var(--blue);font-size:.9rem;padding:8px 0;cursor:pointer;}
+.bottombar button{min-width:0;padding:12px 6px;overflow-wrap:anywhere;}
 </style>
 </head>
 <body>
@@ -168,6 +175,7 @@ input[type="text"]{text-transform:uppercase;}
     <input class="num-input" id="prec-el" type="number" placeholder="Preço" inputmode="decimal" min="0" step="any">
     <button class="btn-add" id="add-btn">Adicionar</button>
   </div>
+  <button class="backup-btn" id="restore-btn" hidden>↶ Restaurar backup anterior à importação</button>
 </div>
 
 <div class="list-area" id="list-el">
@@ -180,6 +188,19 @@ input[type="text"]{text-transform:uppercase;}
   <button class="btn-zero"  id="zero-btn">🔄 Zerar</button>
 </div>
 <input type="file" id="import-file" accept=".txt,text/plain" style="display:none">
+
+<!-- EXPORTAR / COMPARTILHAR -->
+<div class="overlay" id="transfer-ov">
+  <div class="modal">
+    <h3>Compartilhar lista</h3>
+    <p class="modal-sub">Use TXT para backup e transferência completa.</p>
+    <div style="display:grid;gap:8px">
+      <button class="mbtn ok" id="export-btn">📄 Exportar TXT</button>
+      <button class="mbtn no" id="share-text-btn">📤 Compartilhar texto</button>
+      <button class="mbtn no" id="transfer-close">✘ Fechar</button>
+    </div>
+  </div>
+</div>
 
 <!-- EDIT MODAL -->
 <div class="overlay" id="edit-ov">
@@ -246,6 +267,7 @@ input[type="text"]{text-transform:uppercase;}
   </div>
 </div>
 
+<!-- NATIVE_BRIDGE -->
 <script>
 /* =====================================================
    DADOS
@@ -258,7 +280,7 @@ function saveData(){
   try{
     localStorage.setItem('mkt3_items', JSON.stringify(items));
     localStorage.setItem('mkt3_cat',   JSON.stringify(catalog));
-  }catch(e){}
+  }catch(e){alert('Não foi possível salvar no dispositivo. Exporte um TXT antes de fechar.');}
 }
 function loadData(){
   try{
@@ -516,33 +538,80 @@ function quickDel(idx){
 /* =====================================================
    COMPARTILHAR
 ===================================================== */
-document.getElementById('share-btn').onclick=function(){
-  if(!items.length){alert('Nenhum produto na lista.');return;}
+function validItem(it){
+  return it && typeof it.name==='string' && it.name.trim().length>0 &&
+    !/[\r\n]/.test(it.name) && Number.isFinite(it.qty) && it.qty>=0 &&
+    Number.isFinite(it.price) && it.price>=0;
+}
+function validState(state){
+  return state && Array.isArray(state.items) && state.items.every(validItem) &&
+    state.catalog && typeof state.catalog==='object' && !Array.isArray(state.catalog) &&
+    Object.keys(state.catalog).every(function(key){
+      var entry=state.catalog[key];
+      return entry && typeof entry.name==='string' && entry.name.trim() &&
+        Number.isFinite(entry.price) && entry.price>=0;
+    });
+}
+function exportText(){
   var sorted=items.slice().sort(function(a,b){return a.name.localeCompare(b.name,'pt-BR');});
   var total=0;
-  for(var i=0;i<items.length;i++) total+=items[i].qty*items[i].price;
   var sep='----------------------------\n';
   var txt='LISTA DE MERCADO\n'+sep;
-  for(var j=0;j<sorted.length;j++){
-    var it=sorted[j];
-    txt+=it.name+': '+fmtNum(it.qty)+' x '+fmtNum(it.price)+' = '+fmtNum(it.qty*it.price)+'\n';
-  }
-  txt+=sep+'TOTAL: '+fmtNum(total);
+  sorted.forEach(function(it){
+    total+=it.qty*it.price;
+    // Sem arredondar quantidade/preço: preserva medidas fracionárias.
+    txt+=it.name+': '+String(it.qty).replace('.',',')+' x '+String(it.price).replace('.',',')+' = '+fmtNum(it.qty*it.price)+'\n';
+  });
+  txt+=sep+'TOTAL: '+fmtNum(total)+'\n';
+  // Cabeçalho DATA já é ignorado pelos importadores antigos. Metadados
+  // preservam também ordem, catálogo e precisão integral no app novo.
+  txt+='DATA: MERCADO_BACKUP_V1 '+JSON.stringify({version:1,items:items,catalog:catalog})+'\n';
+  return txt;
+}
+function downloadTxt(text,filename){
+  var blob=new Blob([text],{type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+}
+document.getElementById('export-btn').onclick=async function(){
+  document.getElementById('transfer-ov').classList.remove('on');
+  if(!items.length && !Object.keys(catalog).length){alert('Nenhum dado para exportar.');return;}
+  var filename='mercado-'+new Date().toISOString().replace(/[:.]/g,'-')+'.txt';
+  try{
+    var txt=exportText();
+    if(window.MercadoNative && window.MercadoNative.isNative){
+      await window.MercadoNative.exportTxt(txt,filename);
+    } else { downloadTxt(txt,filename); }
+  }catch(e){alert('Exportação não concluída. Tente novamente. Seus dados continuam salvos.');}
+};
 
-  if(navigator.share){
-    navigator.share({title:'Lista de Mercado',text:txt}).catch(function(){});
-  } else {
-    var ta=document.createElement('textarea');
-    ta.value=txt;
-    ta.style.position='fixed';
-    ta.style.opacity='0';
-    document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    try{ document.execCommand('copy'); alert('Lista copiada para a área de transferência!'); }
-    catch(e){ alert(txt); }
-    document.body.removeChild(ta);
-  }
+document.getElementById('share-btn').onclick=function(){
+  document.getElementById('transfer-ov').classList.add('on');
+};
+document.getElementById('transfer-close').onclick=function(){
+  document.getElementById('transfer-ov').classList.remove('on');
+};
+document.getElementById('transfer-ov').onclick=function(e){
+  if(e.target===this) this.classList.remove('on');
+};
+document.getElementById('share-text-btn').onclick=async function(){
+  document.getElementById('transfer-ov').classList.remove('on');
+  if(!items.length){alert('Nenhum produto na lista.');return;}
+  var txt=exportText().split('\nDATA: MERCADO_BACKUP_V1 ')[0];
+  try{
+    if(window.MercadoNative && window.MercadoNative.isNative && window.MercadoNative.shareText){
+      await window.MercadoNative.shareText(txt);
+    }else if(navigator.share){await navigator.share({title:'Lista de Mercado',text:txt});}
+    else{
+      var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();
+      try{
+        if(document.execCommand('copy')) alert('Lista copiada para a área de transferência!');
+        else alert(txt);
+      }finally{ta.remove();}
+    }
+  }catch(e){if(e.name!=='AbortError')alert('Compartilhamento não concluído. Os dados continuam salvos.');}
 };
 
 /* =====================================================
@@ -665,124 +734,91 @@ document.getElementById('import-btn').onclick=function(){
   document.getElementById('import-file').click();
 };
 
+function stripAccents(s){
+  return s.normalize ? s.normalize('NFD').replace(/[\u0300-\u036f]/g,'') : s;
+}
+function parseNum(s){
+  s=s.replace(/R\$\s*/,'').trim();
+  if(s.lastIndexOf(',')>s.lastIndexOf('.')) s=s.replace(/\./g,'').replace(',','.');
+  else s=s.replace(/,/g,'');
+  if(!/^(?:\d+(?:\.\d+)?|\.\d+)$/.test(s)) return NaN;
+  return Number(s);
+}
+function parseImport(txt){
+  var lines=txt.replace(/^\uFEFF/,'').split(/\r?\n/);
+  var meta=lines.filter(function(l){return l.indexOf('DATA: MERCADO_BACKUP_V1 ')===0;});
+  if(meta.length){
+    if(meta.length!==1) throw new Error('Backup duplicado.');
+    var state=JSON.parse(meta[0].slice('DATA: MERCADO_BACKUP_V1 '.length));
+    if(state.version!==1 || !validState(state)) throw new Error('Backup inválido.');
+    return {state:state,full:true};
+  }
+  var imported=[];
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i].trim();
+    if(!line || /^[-=*_]{3,}$/.test(line) || /^(LISTA DE MERCADO|TOTAL:|DATA:)/i.test(line)) continue;
+    var m=line.match(/^(.+?):\s*([\d.,]+)\s*[xX×]\s*([\d.,]+)(?:\s*=\s*[\d.,]+)?\s*$/);
+    var item;
+    if(m){item={name:m[1].trim(),qty:parseNum(m[2]),price:parseNum(m[3])};}
+    else {
+      var j=i+1; while(j<lines.length && !lines[j].trim()) j++;
+      var detail=(lines[j]||'').trim();
+      var old=detail.match(/^Qtd:\s*([\d.,]+)\s*\|\s*Pre[cç]o:\s*(?:R\$\s*)?([\d.,]+)\s*\|\s*Total:\s*(?:R\$\s*)?[\d.,]+\s*$/i);
+      if(!old) throw new Error('Linha '+(i+1)+' não reconhecida.');
+      item={name:line,qty:parseNum(old[1]),price:parseNum(old[2])}; i=j;
+    }
+    if(!validItem(item)) throw new Error('Quantidade, preço ou nome inválido.');
+    imported.push(item);
+  }
+  if(!imported.length) throw new Error('Nenhum produto válido encontrado.');
+  return {items:imported,full:false};
+}
+function updateBackupButton(){
+  try{document.getElementById('restore-btn').hidden=!localStorage.getItem('mkt3_backup');}catch(e){}
+}
+function backupBeforeImport(){
+  localStorage.setItem('mkt3_backup',JSON.stringify({items:items,catalog:catalog}));
+  updateBackupButton();
+}
+document.getElementById('restore-btn').onclick=function(){
+  try{
+    var state=JSON.parse(localStorage.getItem('mkt3_backup'));
+    if(!validState(state)) throw new Error('Backup inválido.');
+    if(!confirm('Restaurar a lista e o catálogo anteriores à última importação?')) return;
+    var current={items:items,catalog:catalog};
+    localStorage.setItem('mkt3_backup',JSON.stringify(current));
+    items=state.items; catalog=state.catalog; saveData(); renderList();
+  }catch(e){alert('Não foi possível restaurar o backup.');}
+};
 document.getElementById('import-file').onchange=function(e){
-  var file=e.target.files[0];
-  if(!file) return;
+  var file=e.target.files[0]; if(!file) return;
   var reader=new FileReader();
+  reader.onerror=function(){alert('Não foi possível ler o arquivo. Nenhum dado foi alterado.');};
   reader.onload=function(ev){
-    var txt=ev.target.result;
-
-    // Normaliza: remove acentos para comparação interna de chaves
-    function stripAccents(s){
-      return s.normalize ? s.normalize('NFD').replace(/[\u0300-\u036f]/g,'') : s;
+    var parsed;
+    try{parsed=parseImport(ev.target.result);}catch(err){
+      alert('Arquivo TXT inválido: '+err.message+' Nenhum dado foi alterado.');return;
     }
-    function parseNum(s){
-      // aceita "1.234,56" ou "1,234.56" ou "1234.56" ou "1234,56"
-      s = s.replace(/R\$\s*/,'').trim();
-      // detecta formato BR (vírgula como decimal): último separador é vírgula
-      var lastComma = s.lastIndexOf(',');
-      var lastDot   = s.lastIndexOf('.');
-      if(lastComma > lastDot){
-        // formato BR: 1.234,56
-        s = s.replace(/\./g,'').replace(',','.');
-      } else {
-        // formato EN: 1,234.56
-        s = s.replace(/,/g,'');
-      }
-      return parseFloat(s);
-    }
-
-    var lines = txt.split('\n');
-    var imported = [];
-    var errors   = 0;
-    var i = 0;
-
-    // Linhas de cabeçalho/rodapé a ignorar (insensível a acento e maiúscula)
-    function isHeader(l){
-      var n = stripAccents(l).toUpperCase();
-      return !l || /^[-=*_]{3,}/.test(l)
-        || n.indexOf('LISTA')===0
-        || n.indexOf('TOTAL')===0
-        || n.indexOf('DATA')===0
-        || n.indexOf('DATA:')===0;
-    }
-
-    while(i < lines.length){
-      var line = lines[i].trim();
-      i++;
-      if(isHeader(line)) continue;
-
-      // ── Formato 1 (app): "Nome: 2,00 x 4,69 = 9,38"
-      var m1 = line.match(/^(.+?):\s*([\d.,]+)\s*[xX×]\s*([\d.,]+)/);
-      if(m1){
-        var nome  = m1[1].trim();
-        var qty   = parseNum(m1[2]);
-        var price = parseNum(m1[3]);
-        if(nome && qty>0 && price>=0 && !isNaN(qty) && !isNaN(price)){
-          imported.push({name:nome, qty:qty, price:price});
-        } else { errors++; }
-        continue;
-      }
-
-      // ── Formato 2 (TXT antigo): linha de nome sozinha, seguida de
-      //    "  Qtd: X  |  Preco: R$ Y  |  Total: R$ Z"
-      //    ou "  Qtd: X | Preço: R$ Y | Total: R$ Z"
-      if(line.length > 0 && !isHeader(line)){
-        // tenta ler próxima linha não-vazia como detalhe
-        var detail = '';
-        var j = i;
-        while(j < lines.length && !lines[j].trim()){j++;}
-        if(j < lines.length) detail = lines[j].trim();
-
-        // aceita "Qtd" e "Preco"/"Preço" (com ou sem acento)
-        var m2 = detail.match(/[Qq]td[^\d]*([\d.,]+)[^\d]+(?:[Pp]re[cç]o)[^\d]+([\d.,]+)/);
-        if(m2){
-          var nome2  = line;
-          var qty2   = parseNum(m2[1]);
-          var price2 = parseNum(m2[2]);
-          if(nome2 && qty2>0 && price2>=0 && !isNaN(qty2) && !isNaN(price2)){
-            imported.push({name:nome2, qty:qty2, price:price2});
-            i = j+1; // pula a linha de detalhe
-          } else { errors++; }
-          continue;
-        }
-
-        // linha que não encaixou em nenhum formato
-        if(line.length > 1) errors++;
-      }
-    }
-
-    if(!imported.length){
-      alert('Nenhum produto válido encontrado.\n\nFormatos aceitos:\n• Nome: qtd x preço = total\n• Nome\n  Qtd: X | Preco: R$ Y | Total: R$ Z');
-      return;
-    }
-    var msg='Importar '+imported.length+' produto(s)?\nIsso vai sobrepor os dados existentes.';
-    if(errors>0) msg+='\n('+errors+' linha(s) não reconhecida(s) foram ignoradas)';
+    var count=parsed.full?parsed.state.items.length:parsed.items.length;
+    var msg='Importar '+count+' produto(s)?\n'+(parsed.full?
+      'Este backup substituirá a lista e o catálogo.':
+      'Produtos com o mesmo nome serão atualizados; os demais serão mantidos.');
+    msg+='\nUma cópia dos dados atuais será guardada para restauração.';
     if(!confirm(msg)) return;
-
-    for(var j2=0;j2<imported.length;j2++){
-      var imp = imported[j2];
-      // compara chaves sem acento para evitar duplicatas entre "Linguica" e "Linguiça"
-      var key     = imp.name.toLowerCase();
-      var keyNorm = stripAccents(key);
-      var ex = -1;
-      for(var k=0;k<items.length;k++){
-        var ck = stripAccents(items[k].name.toLowerCase());
-        if(ck === keyNorm){ex=k;break;}
-      }
-      if(ex>=0){
-        items[ex].qty   = imp.qty;
-        items[ex].price = imp.price;
-        // mantém o nome que já estava (preserva acentos existentes)
-        catalog[items[ex].name.toLowerCase()] = {name:items[ex].name, price:imp.price};
-      } else {
-        items.push({name:imp.name, qty:imp.qty, price:imp.price});
-        catalog[key] = {name:imp.name, price:imp.price};
-      }
+    try{backupBeforeImport();}catch(err){
+      alert('Sem espaço para criar backup. Exporte seus dados e libere espaço antes de importar. Nenhum dado foi alterado.');return;
     }
-    saveData();
-    renderList(document.getElementById('search-el').value.trim()||null);
-    alert('\u2705 '+imported.length+' produto(s) importado(s) com sucesso!');
+    if(parsed.full){items=parsed.state.items;catalog=parsed.state.catalog;}
+    else parsed.items.forEach(function(imp){
+      var keyNorm=stripAccents(imp.name.toLowerCase());
+      var ex=items.findIndex(function(it){return stripAccents(it.name.toLowerCase())===keyNorm;});
+      if(ex>=0){items[ex].qty=imp.qty;items[ex].price=imp.price;}
+      else {items.push(imp);ex=items.length-1;}
+      var name=items[ex].name;
+      Object.defineProperty(catalog,name.toLowerCase(),{value:{name:name,price:imp.price},enumerable:true,writable:true,configurable:true});
+    });
+    saveData();renderList(document.getElementById('search-el').value.trim()||null);
+    alert('✅ '+count+' produto(s) importado(s) com sucesso!');
   };
   reader.readAsText(file,'UTF-8');
 };
@@ -792,6 +828,7 @@ document.getElementById('import-file').onchange=function(e){
 ===================================================== */
 loadData();
 renderList();
+updateBackupButton();
 </script>
 </body>
 </html>

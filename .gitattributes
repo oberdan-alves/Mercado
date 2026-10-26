@@ -1,0 +1,4 @@
+# Wrapper Windows com CRLF no checkout e LF normalizado no índice.
+*.bat text eol=crlf
+# Preserve byte a byte o arquivo original e seu checksum em qualquer sistema.
+original/** -text

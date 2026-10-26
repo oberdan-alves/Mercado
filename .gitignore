@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.npm-cache/
+test-results/
+playwright-report/
+*.jks
+*.keystore
+keystore.properties
+android/local.properties
+artifacts/

@@ -1,0 +1,7 @@
+{
+  "appId": "br.com.oberdanalves.mercado",
+  "appName": "Mercado",
+  "webDir": "dist",
+  "server": {"hostname": "localhost", "androidScheme": "https"},
+  "android": {"backgroundColor": "#111111"}
+}

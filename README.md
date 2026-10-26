@@ -2,7 +2,7 @@
 
 Lista de mercado offline, preservando o HTML/CSS/JavaScript original, com versão para computador e aplicativo Android via Capacitor. Sem login, backend ou banco na nuvem.
 
-Para instalar o APK já gerado no celular, siga o [manual de instalação](docs/INSTALAR_NO_CELULAR.md). Não é necessário Android Studio para instalar.
+O APK já gerado está em [artifacts/Mercado-debug.apk](artifacts/Mercado-debug.apk) (use Download raw file no GitHub). Para instalar no celular, siga o [manual de instalação](docs/INSTALAR_NO_CELULAR.md). Não é necessário Android Studio para instalar.
 
 ## Computador / VS Code
 

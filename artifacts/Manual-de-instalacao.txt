@@ -1,0 +1,59 @@
+# Instalar o Mercado no celular Android
+
+O APK já está gerado: **Mercado-debug.apk**, aproximadamente 4 MB. É uma versão de teste do Mercado 1.0.0, para Android 7.0 ou superior.
+
+Para instalar esse arquivo, você **não precisa de computador, Android Studio, Node.js, conta ou Play Store**. O APK e este manual estão na pasta artifacts do GitHub. Abra `Mercado-debug.apk` e use **Download raw file** (ícone de download); se o GitHub mostrar apenas informações do arquivo, escolha **View raw**. O APK também está disponível na mensagem de entrega do projeto.
+
+## 1. Baixar o APK
+
+Abra a conversa no celular e toque no link **Baixar APK de teste**. Salve o arquivo `Mercado-debug.apk` na pasta Downloads.
+
+Se baixar no computador, conecte o celular por cabo USB, selecione **Transferência de arquivos** no celular e copie o APK para a pasta **Download**. Também pode transferir o arquivo por outro meio de sua preferência.
+
+## 2. Instalar
+
+1. Abra o aplicativo **Arquivos**, **Meus Arquivos** ou outro gerenciador de arquivos do celular.
+2. Entre em **Downloads** e toque em `Mercado-debug.apk`.
+3. Se o Android informar que esse aplicativo não pode instalar arquivos, toque em **Configurações** e habilite **Permitir desta fonte** para o aplicativo que está abrindo o APK. Os nomes variam conforme o aparelho.
+4. Volte à tela de instalação e toque em **Instalar**.
+5. Quando terminar, toque em **Abrir**. O ícone de carrinho com o nome **Mercado** também aparecerá na lista de aplicativos. Para colocá-lo na tela inicial, mantenha o ícone pressionado e arraste ou escolha **Adicionar à tela inicial**.
+
+Se o aparelho for administrado por uma empresa e bloquear instalações externas, a liberação depende do administrador. Se houver um aviso de verificação do Play Protect, permita a análise e leia o resultado; não é necessário desativar a proteção do aparelho.
+
+## 3. Trazer sua lista atual
+
+A lista do navegador não aparece automaticamente no aplicativo, pois cada um tem seu próprio armazenamento.
+
+1. No Mercado do computador, toque em **Compartilhar → Exportar TXT**.
+2. Transfira o TXT para a pasta Downloads do celular.
+3. No aplicativo Mercado, toque em **Importar** e selecione o TXT.
+4. Leia a confirmação e confirme a importação.
+5. Confira os produtos e o total.
+
+Se você tiver somente o arquivo antigo `mercado.txt`, pode importá-lo diretamente. A importação guarda uma cópia local do estado anterior; para voltar, use **Restaurar backup anterior à importação**, abaixo dos campos.
+
+## 4. Usar e guardar os dados
+
+O aplicativo funciona sem internet. Os registros são salvos automaticamente no celular. Para conferir, cadastre um produto, feche o aplicativo e abra novamente. Teste também em modo avião.
+
+Para fazer uma cópia fora do aplicativo, toque em **Compartilhar → Exportar TXT**. O Android abrirá as opções disponíveis para salvar ou compartilhar o arquivo. Escolha um aplicativo que aceite arquivos; se houver opção de salvar em Arquivos, escolha uma pasta. Guarde o TXT em um local que consiga recuperar depois.
+
+**Não desinstale o Mercado nem use Limpar dados sem antes exportar um TXT.** Essas operações podem apagar a lista e o catálogo. O backup anterior à importação também fica dentro do aplicativo e não substitui uma cópia externa.
+
+## 5. Instalar uma atualização
+
+1. Antes de atualizar, exporte um TXT como backup.
+2. Baixe o novo APK e abra-o, mantendo o aplicativo anterior instalado.
+3. Se o Android oferecer **Atualizar**, confirme.
+4. Abra o Mercado e confira seus registros.
+
+Atualizações diretas exigem o mesmo identificador de aplicativo e a mesma chave de assinatura. Este APK usa chave de teste. Um APK gerado em outro computador ou uma futura versão release pode usar outra chave; nesse caso, o Android poderá recusar a atualização. **Não desinstale para tentar resolver antes de exportar seus dados.** Depois de guardar o TXT, é possível reinstalar a outra versão e importar a cópia.
+
+## Se não instalar
+
+- **Arquivo não abre:** confirme que o nome termina em `.apk`, que o download terminou e abra pelo gerenciador de arquivos.
+- **App não instalado / conflito com pacote:** pode existir uma versão com outra assinatura. Faça o backup TXT antes de qualquer reinstalação.
+- **Pacote inválido:** baixe ou copie o arquivo novamente. O download desta entrega tem aproximadamente 4 MB.
+- **Celular incompatível:** é necessário Android 7.0 ou superior.
+
+O APK foi compilado e sua assinatura foi verificada neste ambiente. A instalação e o funcionamento no seu aparelho ainda precisam ser conferidos. Para gerar futuras versões e configurar a assinatura definitiva, veja [ANDROID.md](ANDROID.md).

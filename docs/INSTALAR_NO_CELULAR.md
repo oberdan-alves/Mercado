@@ -2,7 +2,7 @@
 
 O APK já está gerado: **Mercado-debug.apk**, aproximadamente 4 MB. É uma versão de teste do Mercado 1.0.0, para Android 7.0 ou superior.
 
-Para instalar esse arquivo, você **não precisa de computador, Android Studio, Node.js, conta ou Play Store**. O link para baixar o APK está na mensagem de entrega do projeto. O APK gerado fica em `artifacts/Mercado-debug.apk` no ambiente de trabalho; arquivos de compilação não fazem parte do clone do GitHub.
+Para instalar esse arquivo, você **não precisa de computador, Android Studio, Node.js, conta ou Play Store**. O APK e este manual estão na pasta [artifacts](../artifacts) do GitHub. Abra `Mercado-debug.apk` e use **Download raw file** (ícone de download); se o GitHub mostrar apenas informações do arquivo, escolha **View raw**. O APK também está disponível na mensagem de entrega do projeto.
 
 ## 1. Baixar o APK
 

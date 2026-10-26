@@ -7,4 +7,3 @@ playwright-report/
 *.keystore
 keystore.properties
 android/local.properties
-artifacts/

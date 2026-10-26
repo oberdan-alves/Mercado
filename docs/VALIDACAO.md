@@ -44,7 +44,7 @@ Release definitivo: configuração e instruções preparadas, mas nenhuma chave 
 ### APK de teste gerado
 
 - Compilação `:app:assembleDebug` concluída com geração do APK (`versionCode=1`, `versionName=1.0.0`).
-- APK: `android/app/build/outputs/apk/debug/app-debug.apk`; cópia para entrega em `artifacts/Mercado-debug.apk` (arquivos de build ignorados pelo Git).
+- APK: `android/app/build/outputs/apk/debug/app-debug.apk`; cópia para entrega em `artifacts/Mercado-debug.apk`, incluída no Git junto ao manual e checksum. A saída de build em `android/` continua ignorada.
 - Assinatura debug verificada com `apksigner`: válida, APK Signature Scheme v2.
 - Inspeção com `aapt`: nome Mercado, pacote `br.com.oberdanalves.mercado`, Android mínimo API 24, alvo API 36.
 - Assets do APK comparados byte a byte com o build web atual. Configuração empacotada sem `server.url` remoto.

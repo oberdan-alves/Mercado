@@ -2,6 +2,8 @@
 
 Lista de mercado offline, preservando o HTML/CSS/JavaScript original, com versão para computador e aplicativo Android via Capacitor. Sem login, backend ou banco na nuvem.
 
+Para instalar o APK já gerado no celular, siga o [manual de instalação](docs/INSTALAR_NO_CELULAR.md). Não é necessário Android Studio para instalar.
+
 ## Computador / VS Code
 
 Requer Node.js 22 ou superior (recomendado Node.js 24 LTS).

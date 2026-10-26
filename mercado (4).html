@@ -26,17 +26,19 @@ body{
 
 /* TOPBAR */
 .topbar{background:var(--surf);padding:8px 10px;display:flex;gap:8px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.search-box{flex:1;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-size:1.05rem;outline:none;}
+.search-box{flex:1;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-size:1.2rem;outline:none;}
 .search-box:focus{border-color:var(--accent);}
 /* Botão calculadora: fundo azul-escuro, texto legível */
 .icon-btn{background:#1a2a4a;border:1px solid #3a5a8a;color:#7eb8f7;border-radius:10px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;cursor:pointer;flex-shrink:0;user-select:none;letter-spacing:-.5px;}
 .icon-btn:active{background:#0f1a2e;}
 .icon-btn svg{width:24px;height:24px;fill:none;stroke:#7eb8f7;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
+input[type="text"]{text-transform:uppercase;}
+
 /* FORM */
 .form-area{background:var(--surf);padding:10px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .ac-wrap{position:relative;margin-bottom:8px;}
-.prod-input{width:100%;background:var(--surf3);border:1px solid var(--border);color:var(--accent);border-radius:10px;padding:11px 12px;font-size:1.05rem;font-weight:700;outline:none;}
+.prod-input{width:100%;background:var(--surf3);border:1px solid var(--border);color:var(--accent);border-radius:10px;padding:11px 12px;font-size:1.2rem;font-weight:700;outline:none;}
 .prod-input:focus{border-color:var(--accent);}
 .suggestions{display:none;position:absolute;top:100%;left:0;right:0;background:var(--surf2);border:1px solid var(--accent);border-top:none;border-radius:0 0 10px 10px;z-index:90;max-height:150px;overflow-y:auto;}
 .sug-item{padding:10px 12px;cursor:pointer;font-size:1rem;display:flex;justify-content:space-between;border-bottom:1px solid var(--border);}
@@ -44,10 +46,10 @@ body{
 .sug-item:active{background:var(--border);}
 .sug-price{color:var(--accent);font-weight:700;font-size:.95rem;}
 .form-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;}
-.num-input{background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 6px;font-size:1.05rem;font-weight:700;text-align:center;outline:none;width:100%;-moz-appearance:textfield;}
+.num-input{background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 6px;font-size:1.2rem;font-weight:700;text-align:center;outline:none;width:100%;-moz-appearance:textfield;}
 .num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
 .num-input:focus{border-color:var(--accent);}
-.num-input::placeholder{color:var(--muted);font-weight:400;font-size:.9rem;}
+.num-input::placeholder{color:var(--muted);font-weight:400;font-size:1rem;}
 .btn-add{background:var(--green);color:#fff;border:none;border-radius:10px;padding:11px 12px;font-size:1rem;font-weight:800;cursor:pointer;white-space:nowrap;}
 .btn-add:active{background:#388e3c;}
 
@@ -86,7 +88,7 @@ body{
 .modal{background:var(--surf);border:1px solid var(--border);border-radius:16px;padding:20px;width:88%;max-width:340px;}
 .modal h3{font-size:1.1rem;color:var(--accent);margin-bottom:6px;text-align:center;font-weight:900;}
 .modal-sub{font-size:.85rem;color:var(--muted);text-align:center;margin-bottom:12px;}
-.modal input{width:100%;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 12px;font-size:1.15rem;font-weight:700;text-align:center;outline:none;margin-bottom:8px;-moz-appearance:textfield;}
+.modal input{width:100%;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:11px 12px;font-size:1.3rem;font-weight:700;text-align:center;outline:none;margin-bottom:8px;-moz-appearance:textfield;}
 .modal input::-webkit-inner-spin-button,.modal input::-webkit-outer-spin-button{-webkit-appearance:none;}
 .modal input:focus{border-color:var(--accent);}
 .modal-btns{display:flex;gap:8px;}
@@ -135,7 +137,7 @@ body{
 .cov.on{display:flex;}
 .cmod{background:var(--surf);border:1px solid var(--accent);border-radius:14px;padding:20px;width:86%;max-width:300px;}
 .cmod h4{font-size:1.05rem;color:var(--accent);font-weight:900;text-align:center;margin-bottom:12px;}
-.cmod input{width:100%;background:var(--surf2);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:11px;font-size:1.5rem;font-weight:900;text-align:center;outline:none;margin-bottom:12px;}
+.cmod input{width:100%;background:var(--surf2);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:11px;font-size:1.65rem;font-weight:900;text-align:center;outline:none;margin-bottom:12px;}
 .cmod input:focus{border-color:var(--accent);}
 .cmod-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .cmod-ok{background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-size:1rem;font-weight:800;cursor:pointer;}
@@ -158,7 +160,7 @@ body{
 
 <div class="form-area">
   <div class="ac-wrap">
-    <input class="prod-input" id="prod-el" type="text" placeholder="Produto" autocomplete="off" autocapitalize="words">
+    <input class="prod-input" id="prod-el" type="text" placeholder="Produto" autocomplete="off" autocapitalize="characters">
     <div class="suggestions" id="sug-el"></div>
   </div>
   <div class="form-row">
@@ -271,7 +273,15 @@ function loadData(){
 function fmtNum(n){
   return n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
-function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function cap(s){ return s.toUpperCase(); }
+function uppercaseInput(input){
+  var start=input.selectionStart;
+  var end=input.selectionEnd;
+  var value=input.value;
+  input.value=value.toUpperCase();
+  input.setSelectionRange(value.slice(0,start).toUpperCase().length,
+                          value.slice(0,end).toUpperCase().length);
+}
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 /* =====================================================
@@ -396,6 +406,7 @@ document.getElementById('add-btn').onclick=function(){
    AUTOCOMPLETE
 ===================================================== */
 document.getElementById('prod-el').oninput=function(){
+  uppercaseInput(this);
   var val=this.value.trim().toLowerCase();
   if(!val){hideSug();return;}
   var keys=Object.keys(catalog);
@@ -424,7 +435,7 @@ document.getElementById('prod-el').oninput=function(){
 };
 
 function pickSug(m){
-  document.getElementById('prod-el').value=m.name;
+  document.getElementById('prod-el').value=cap(m.name);
   var pEl=document.getElementById('prec-el');
   pEl.value=m.price.toFixed(2);
   hideSug();
@@ -442,6 +453,7 @@ document.onclick=function(e){ if(!e.target.closest||!e.target.closest('.ac-wrap'
    BUSCA
 ===================================================== */
 document.getElementById('search-el').oninput=function(){
+  uppercaseInput(this);
   renderList(this.value.trim()||null);
 };
 

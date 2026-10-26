@@ -1,0 +1,42 @@
+LISTA DE MERCADO
+----------------------------
+Agua gas 500ml: 4,00 x 1,70 = 6,80
+Arroz: 1,00 x 24,00 = 24,00
+Atum: 6,00 x 8,50 = 51,00
+Azeitona 1k: 1,00 x 33,00 = 33,00
+Bisnaga: 1,00 x 6,00 = 6,00
+Cachaca: 1,00 x 23,00 = 23,00
+Cafe: 1,00 x 23,00 = 23,00
+Cerveja Eise: 6,00 x 3,29 = 19,74
+Coca Lata: 6,00 x 3,00 = 18,00
+Cotonete 75: 3,00 x 2,80 = 8,40
+Creme Leite: 4,00 x 2,30 = 9,20
+Desodorante: 1,00 x 6,00 = 6,00
+Desodorante xuxu: 1,00 x 22,00 = 22,00
+Detergente: 3,00 x 2,09 = 6,27
+Extrato tomate: 12,00 x 2,60 = 31,20
+Fosforo: 1,00 x 3,80 = 3,80
+Ketchup: 1,00 x 16,00 = 16,00
+Kiboa: 1,00 x 3,30 = 3,30
+Leite Cond: 4,00 x 7,00 = 28,00
+Leite po: 4,00 x 16,00 = 64,00
+Maionese: 2,00 x 20,80 = 41,60
+Manteiga: 3,00 x 14,00 = 42,00
+Oleo: 1,00 x 8,00 = 8,00
+Ovo 30: 4,00 x 15,00 = 60,00
+Palmito: 1,00 x 22,00 = 22,00
+Pao forma: 1,00 x 6,00 = 6,00
+Pao hamb: 1,00 x 7,00 = 7,00
+Pao Queijo: 1,00 x 9,00 = 9,00
+Papel hig 12: 1,00 x 13,00 = 13,00
+Peito: 6,00 x 17,00 = 102,00
+Sabao Coco: 1,00 x 14,00 = 14,00
+Sabao po 2.4: 1,00 x 21,00 = 21,00
+Sabonete 85g: 6,00 x 2,40 = 14,40
+Sardinha: 6,00 x 6,50 = 39,00
+Shampoo: 1,00 x 17,00 = 17,00
+Suco clight: 40,00 x 2,00 = 80,00
+Suco uva 1.5l: 3,00 x 12,50 = 37,50
+Tinta cabelo: 4,00 x 15,00 = 60,00
+----------------------------
+TOTAL: 996,21

@@ -101,48 +101,48 @@ input[type="text"]{text-transform:uppercase;}
 .calc-panel{display:none;position:fixed;inset:0;background:#0d0d0d;z-index:300;flex-direction:column;width:100%;max-width:390px;left:50%;transform:translateX(-50%);}
 .calc-panel.on{display:flex;}
 .calc-topbar{background:#000;border-bottom:2px solid var(--accent);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.calc-back{flex-shrink:0;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 14px;font-size:1.05rem;font-weight:800;cursor:pointer;}
+.calc-back{flex-shrink:0;background:var(--surf2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:8px 14px;font-size:1.2rem;font-weight:800;cursor:pointer;}
 .calc-back:active{background:var(--border);}
-.calc-title{color:var(--accent);font-size:1.15rem;font-weight:900;letter-spacing:1px;}
+.calc-title{min-width:0;overflow-wrap:anywhere;color:var(--accent);font-size:1.3rem;font-weight:900;letter-spacing:1px;}
 /* Permite rolagem em telas menores com as fontes ampliadas. */
 .calc-body{flex:1;display:flex;flex-direction:column;padding:10px 12px;min-height:0;overflow-y:auto;}
-.c-sec{font-size:.95rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;flex-shrink:0;}
+.c-sec{font-size:1.15rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.c-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:8px;flex-shrink:0;}
 .c-tile{background:var(--surf);border:2px solid var(--border);border-radius:12px;padding:8px;cursor:pointer;text-align:center;user-select:none;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .c-tile:active{background:var(--surf2);}
 .c-tile.filled{border-color:var(--accent);}
-.c-lbl{font-size:.9rem;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
-.c-val{font-size:1.35rem;font-weight:900;color:var(--text);line-height:1.2;}
-.c-def{font-size:.8rem;color:var(--muted);margin-top:1px;}
+.c-lbl{font-size:1.1rem;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
+.c-val{max-width:100%;overflow-wrap:anywhere;font-size:1.7rem;font-weight:900;color:var(--text);line-height:1.2;}
+.c-def{font-size:1rem;color:var(--muted);margin-top:1px;}
 .c-spacer{flex:1;}
 .c-divider{height:1px;background:var(--border);margin:6px 0;flex-shrink:0;}
-.c-btn-calc{width:100%;background:linear-gradient(135deg,var(--accent),#e6b800);color:#111;border:none;border-radius:12px;padding:13px;font-size:1.2rem;font-weight:900;letter-spacing:1px;cursor:pointer;margin-bottom:6px;flex-shrink:0;}
+.c-btn-calc{width:100%;background:linear-gradient(135deg,var(--accent),#e6b800);color:#111;border:none;border-radius:12px;padding:13px;font-size:1.4rem;font-weight:900;letter-spacing:1px;cursor:pointer;margin-bottom:6px;flex-shrink:0;}
 .c-btn-calc:active{opacity:.85;}
 .c-results{display:none;background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:6px;flex-shrink:0;}
 .c-results.on{display:block;}
 .c-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;padding:4px 0;border-bottom:1px solid var(--border);}
 .c-row:last-of-type{border-bottom:none;}
-.c-rlbl{font-size:1rem;color:var(--muted);font-weight:600;}
-.c-rval{font-size:1.15rem;font-weight:900;color:var(--accent);}
-.c-verdict{margin-top:8px;padding:9px;border-radius:10px;text-align:center;font-size:1.05rem;font-weight:800;}
+.c-rlbl{font-size:1.2rem;color:var(--muted);font-weight:600;}
+.c-rval{font-size:1.45rem;font-weight:900;color:var(--accent);}
+.c-verdict{margin-top:8px;padding:9px;border-radius:10px;text-align:center;font-size:1.25rem;font-weight:800;}
 .c-verdict.menor{background:#1b3a1f;color:#81c784;border:1px solid #388e3c;}
 .c-verdict.maior{background:#3a1f0f;color:#ffb74d;border:1px solid #e65100;}
 .c-verdict.igual{background:#1a2a3a;color:#64b5f6;border:1px solid #1565c0;}
 .c-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0;}
-.c-btn-sec{background:#333;color:#fff;border:none;border-radius:10px;padding:12px;font-size:1.05rem;font-weight:800;cursor:pointer;}
+.c-btn-sec{background:#333;color:#fff;border:none;border-radius:10px;padding:12px;font-size:1.2rem;font-weight:800;cursor:pointer;}
 .c-btn-sec:active{background:#222;}
 
 /* CALC INPUT MODAL */
 .cov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:400;align-items:center;justify-content:center;}
 .cov.on{display:flex;}
 .cmod{background:var(--surf);border:1px solid var(--accent);border-radius:14px;padding:20px;width:86%;max-width:300px;}
-.cmod h4{font-size:1.2rem;color:var(--accent);font-weight:900;text-align:center;margin-bottom:12px;}
-.cmod input{width:100%;background:var(--surf2);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:11px;font-size:1.8rem;font-weight:900;text-align:center;outline:none;margin-bottom:12px;}
+.cmod h4{font-size:1.4rem;color:var(--accent);font-weight:900;text-align:center;margin-bottom:12px;}
+.cmod input{width:100%;background:var(--surf2);border:2px solid var(--border);color:var(--text);border-radius:10px;padding:11px;font-size:2.1rem;font-weight:900;text-align:center;outline:none;margin-bottom:12px;}
 .cmod input:focus{border-color:var(--accent);}
-.cmod-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.cmod-ok{background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-size:1.1rem;font-weight:800;cursor:pointer;}
+.cmod-btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;}
+.cmod-ok{background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px 6px;font-size:1.2rem;font-weight:800;cursor:pointer;}
 .cmod-ok:active{background:#388e3c;}
-.cmod-no{background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px;font-size:1.1rem;font-weight:800;cursor:pointer;}
+.cmod-no{background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px 6px;font-size:1.2rem;font-weight:800;cursor:pointer;}
 .cmod-no:active{background:#b71c1c;}
 </style>
 </head>
